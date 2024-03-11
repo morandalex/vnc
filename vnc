@@ -1,0 +1,26 @@
+# apt update
+# apt install nginx
+# openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+# cp vnc /etc/nginx/sites-available/
+# ln -s /etc/nginx/sites-available/ /etc/nginx/sites-enabled
+# nginx -t
+
+server {
+
+        listen 6082 ssl;
+
+        ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+
+        server_name _ ; # put here domain or ipv4
+
+        location / {
+                proxy_pass http://localhost:6080;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+        }
+
+}
