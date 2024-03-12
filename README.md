@@ -1,14 +1,16 @@
 # vnc
 
-install docker
-install nginx
-make up
+## how to install on 
 
+connect tp a virtual machine via ssh and then  :
+- install docker
+- install nginx
+- setup .env file
+- make up 
 
+If you need help downloading docker check the following guide 
 
-
-
-install docker tips:
+## install docker tips:
 
 Update the package index:
 
