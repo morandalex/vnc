@@ -2,8 +2,8 @@
 
 ## how to install on 
 
-connect tp a virtual machine via ssh and then  :
-- on vm create a swapfile
+connect to a virtual machine via ssh and then  :
+- on virtual machine create a swapfile
 - install docker
 - install nginx
 - setup nginx site avalable -> check guide inside "vnc" file
