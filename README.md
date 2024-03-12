@@ -27,15 +27,19 @@ If you need help downloading docker check the following guide.
 
 1. Update the package index:
 
+```bash
     sudo apt-get update
+```
 
 2. Install packages to allow apt to use a repository over HTTPS:
 
+```bash
     sudo apt-get install -y \
         ca-certificates \
         curl \
         gnupg \
         lsb-release
+```
 
 3. Add Docker's official GPG key:
 
@@ -44,15 +48,19 @@ If you need help downloading docker check the following guide.
 
 4. Set up the repository:
 
+```bash
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
+```
 5. Install Docker Engine:
 
+```bash
     sudo apt-get update
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+```
 
 6. Verify that Docker Engine is installed correctly:
-
+```
     sudo docker run hello-world
+```
