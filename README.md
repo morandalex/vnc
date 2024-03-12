@@ -3,20 +3,33 @@
 ## how to install on 
 
 connect tp a virtual machine via ssh and then  :
+- on vm create a swapfile
 - install docker
 - install nginx
+- setup nginx site avalable -> check guide inside "vnc" file
 - setup .env file
 - make up 
 
-If you need help downloading docker check the following guide 
+
+
+when you have done 
+go to the browser and find for 
+
+    https://<user>:<http_password>@<ip>:6082
+
+then add the vnc password
+
+
 
 ## install docker tips:
 
-Update the package index:
+If you need help downloading docker check the following guide.
+
+1. Update the package index:
 
     sudo apt-get update
 
-Install packages to allow apt to use a repository over HTTPS:
+2. Install packages to allow apt to use a repository over HTTPS:
 
     sudo apt-get install -y \
         ca-certificates \
@@ -24,22 +37,22 @@ Install packages to allow apt to use a repository over HTTPS:
         gnupg \
         lsb-release
 
-Add Docker's official GPG key:
+3. Add Docker's official GPG key:
 
     sudo mkdir -p /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-Set up the repository:
+4. Set up the repository:
 
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-Install Docker Engine:
+5. Install Docker Engine:
 
     sudo apt-get update
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-Verify that Docker Engine is installed correctly:
+6. Verify that Docker Engine is installed correctly:
 
     sudo docker run hello-world
