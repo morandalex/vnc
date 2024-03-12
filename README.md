@@ -1,4 +1,7 @@
-# vnc
+# secure vnc on remote virtual machine 
+
+![demo_vnc_hertzner-ezgif com-optimize (1)](https://github.com/morandalex/vnc/assets/9484568/68cd47c0-0e25-4660-ad0c-afebd02c7510)
+
 
 ## how to install on 
 
