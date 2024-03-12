@@ -2,65 +2,92 @@
 
 ## how to install on 
 
-connect to a virtual machine via ssh and then  :
-- on virtual machine create a swapfile
-- install docker
-- install nginx
-- setup nginx site avalable -> check guide inside "vnc" file
-- setup .env file
-- make up 
 
+### Prerequisites
 
+Before we begin, ensure that you have the following:
 
-when you have done 
-go to the browser and find for 
+- A virtual machine instance from a cloud hosting provider like Hetzner
+- SSH access to your virtual machine
+- Basic knowledge of command-line operations
 
-    https://<user>:<http_password>@<ip>:6082
+### Step 1: Create a Virtual Machine
 
-then add the vnc password
+Start by creating a virtual machine instance with your desired specifications (CPU, RAM, storage) from a cloud hosting provider like Hetzner. Make sure to choose a provider that offers data centers near your location for optimal performance.
 
-
-
-## install docker tips:
-
-If you need help downloading docker check the following guide.
-
-1. Update the package index:
+### Step 2: Connect to the Virtual Machine via SSH
+Once your virtual machine is set up, establish an SSH connection to it using a terminal or an SSH client. This will allow you to execute commands and configure the necessary components.
 
 ```bash
-    sudo apt-get update
+ssh user@your_vm_ip
 ```
 
-2. Install packages to allow apt to use a repository over HTTPS:
+### Step 3: Create a Swap File
+
+To ensure smooth performance, create a swap file on your virtual machine. This will provide additional virtual memory when needed.
 
 ```bash
-sudo apt-get install -y \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
 ```
 
-3. Add Docker's official GPG key:
+### Step 4: Install Docker
 
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+Docker will be used to run the VNC desktop container. 
 
-4. Set up the repository:
+### Step 5: Install Nginx
+
+Install Nginx as a reverse proxy server to securely access your VNC desktop over HTTPS.
 
 ```bash
-echo \
-"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install nginx
 ```
-5. Install Docker Engine:
+
+Generate a self-signed SSL certificate for Nginx:
+```bash
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+```
+
+### Step 6: Configure Nginx
+Copy the provided Nginx site configuration file to the appropriate directory:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo cp vnc /etc/nginx/sites-available/
+sudo ln -s /etc/nginx/sites-available/vnc /etc/nginx/sites-enabled/
+```
+Verify the Nginx configuration:
+
+```bash
+sudo nginx -t
 ```
 
-6. Verify that Docker Engine is installed correctly:
+### Step 7: Set up Environment Variables
+
+Create an .env file with the necessary environment variables, such as VNC password, HTTP password, resolution, and user credentials.
+
+```bash
+nano .env
 ```
-sudo docker run hello-world
+
+```env
+VNC_PASSWORD=your_vnc_password
+RESOLUTION=1920x1080
+HTTP_PASSWORD=your_http_password
+USER=your_username
+PASSWORD=your_user_password
 ```
+
+### Step 8: Launch the VNC Desktop Container
+
+Use the provided docker-compose.yml file to launch the VNC desktop container with the specified configurations.
+
+```bash
+docker compose up -d
+```
+
+### Step 9: Access the VNC Desktop
+
+Open a web browser and navigate to https://<user>:<http_password>@<your_vm_ip>:6082. When prompted, enter the VNC password you set in the .env file. You should now have access to your remote VNC desktop.
